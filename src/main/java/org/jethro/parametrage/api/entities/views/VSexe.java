@@ -1,5 +1,6 @@
 package org.jethro.parametrage.api.entities.views;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Subselect;
@@ -7,7 +8,10 @@ import org.hibernate.annotations.Subselect;
 @Entity
 @Immutable
 @Subselect(VSexe.QUERY)
-public class VSexe extends BaseEntityForParameterView {
+public class VSexe extends BaseEntityForView {
+
+  @Column(name = "total_personnes")
+  public Integer totalPersons;
 
   public static final String QUERY = """
       SELECT

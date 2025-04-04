@@ -26,8 +26,6 @@ public class SexeMapper implements BaseMapper<Sexe, SexeDto>, BaseViewMapper<VSe
     dto.setUuid(vSexe.uuid);
     dto.setCode(vSexe.code);
     dto.setLibelle(vSexe.libelle);
-    dto.setNombreHomme(vSexe.nombreHomme);
-    dto.setNombreFemme(vSexe.nombreFemme);
     dto.setTotalPersonne(vSexe.totalPersons);
     return dto;
   }

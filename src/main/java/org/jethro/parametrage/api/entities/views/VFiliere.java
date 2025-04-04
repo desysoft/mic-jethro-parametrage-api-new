@@ -10,18 +10,18 @@ import org.hibernate.annotations.Subselect;
 public class VFiliere extends BaseEntityForParameterView {
 
   public static final String QUERY = """
-    SELECT
-          t.id,
-          t.str_code AS code,
-          t.str_name AS libelle,
-          COUNT(p.id) FILTER (WHERE s.str_code = 'M') AS nombre_hommes,
-          COUNT(p.id) FILTER (WHERE s.str_code = 'F') AS nombre_femmes,
-          COUNT(p.id) AS total_personnes
-          FROM parametrage.filiere t
-          LEFT JOIN "members-management".person p ON t.id = p.pkey_filiere_id
-          LEFT JOIN parametrage.sexe s ON s.id = p.pkey_sexe_id
-          WHERE t.status = 'enable'
-          GROUP BY t.id, t.str_code, t.str_name
-          ORDER BY t.str_code, t.str_name
+      SELECT
+            t.id,
+            t.str_code AS code,
+            t.str_name AS libelle,
+            COUNT(p.id) FILTER (WHERE s.str_code = 'M') AS nombre_hommes,
+            COUNT(p.id) FILTER (WHERE s.str_code = 'F') AS nombre_femmes,
+            COUNT(p.id) AS total_personnes
+            FROM parametrage.filiere t
+            LEFT JOIN "members-management".person p ON t.id = p.pkey_filiere_id
+            LEFT JOIN parametrage.sexe s ON s.id = p.pkey_sexe_id
+            WHERE t.status = 'enable'
+            GROUP BY t.id, t.str_code, t.str_name
+            ORDER BY t.str_code, t.str_name
       """;
 }

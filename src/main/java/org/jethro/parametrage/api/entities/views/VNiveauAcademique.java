@@ -18,7 +18,7 @@ public class VNiveauAcademique extends BaseEntityForParameterView {
           COUNT(p.id) FILTER (WHERE s.str_code = 'F') AS nombre_femmes,
           COUNT(p.id) AS total_personnes
           FROM parametrage.academiclevel t
-          LEFT JOIN "members-management".person p ON t.id = p.pkey_workertype_id
+          LEFT JOIN "members-management".person p ON t.id = p.pkey_niveauacademique_id
           LEFT JOIN parametrage.sexe s ON s.id = p.pkey_sexe_id
           WHERE t.status = 'enable'
           GROUP BY t.id, t.str_code, t.str_name
