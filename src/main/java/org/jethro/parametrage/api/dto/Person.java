@@ -11,13 +11,13 @@ public class Person extends BaseEntityDTO{
     private String email;
     private Sexe sexe;
     private SituationMatrimoniale situationMatrimoniale;
-    private Profession profession;
+    private ProfessionDto professionDto;
     private NeighborhoodDto neighborhoodDto;
 
     public Person() {
     }
 
-    public Person(String prenom, String nom, LocalDateTime dateNaissance, String pathPhoto, String email, Sexe sexe, SituationMatrimoniale situationMatrimoniale, Profession profession, NeighborhoodDto neighborhoodDto) {
+    public Person(String prenom, String nom, LocalDateTime dateNaissance, String pathPhoto, String email, Sexe sexe, SituationMatrimoniale situationMatrimoniale, ProfessionDto professionDto, NeighborhoodDto neighborhoodDto) {
         this.prenom = prenom;
         this.nom = nom;
         this.dateNaissance = dateNaissance;
@@ -25,7 +25,7 @@ public class Person extends BaseEntityDTO{
         this.email = email;
         this.sexe = sexe;
         this.situationMatrimoniale = situationMatrimoniale;
-        this.profession = profession;
+        this.professionDto = professionDto;
         this.neighborhoodDto = neighborhoodDto;
     }
 
@@ -85,12 +85,12 @@ public class Person extends BaseEntityDTO{
         this.situationMatrimoniale = situationMatrimoniale;
     }
 
-    public Profession getProfession() {
-        return profession;
+    public ProfessionDto getProfession() {
+        return professionDto;
     }
 
-    public void setProfession(Profession profession) {
-        this.profession = profession;
+    public void setProfession(ProfessionDto professionDto) {
+        this.professionDto = professionDto;
     }
 
     public NeighborhoodDto getQuartier() {
@@ -113,7 +113,7 @@ public class Person extends BaseEntityDTO{
                 ", email='" + email + '\'' +
                 ", sexe=" + sexe +
                 ", situationMatrimoniale=" + situationMatrimoniale +
-                ", profession=" + profession +
+                ", professionDto=" + professionDto +
                 ", neighborhoodDto=" + neighborhoodDto +
                 '}';
     }

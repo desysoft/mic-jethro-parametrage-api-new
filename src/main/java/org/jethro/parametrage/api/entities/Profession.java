@@ -30,7 +30,7 @@ public class Profession extends BaseEntity{
 
     @Override
     public String toString() {
-        return "Profession{" +
+        return "ProfessionDto{" +
                 "uuid='" + uuid + '\'' +
                 ", code='" + code + '\'' +
                 ", status='" + status + '\'' +
