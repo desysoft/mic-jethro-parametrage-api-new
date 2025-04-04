@@ -1,19 +1,26 @@
 package org.jethro.parametrage.api.dto;
 
 import java.util.Objects;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jethro.parametrage.api.entities.views.VQuartier;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 public class Municipality extends BaseEntityDTO {
 
     private String libelle;
     private String description;
+    private Integer nombreFemme;
+    private Integer nombreHomme;
+    private Integer totalPersonne;
 
-    public Municipality() {
-    }
 
     public Municipality(String libelle, String description) {
         this.libelle = libelle;
@@ -41,16 +48,4 @@ public class Municipality extends BaseEntityDTO {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Municipality quartier = (Municipality) o;
-        return Objects.equals(libelle, quartier.libelle) && Objects.equals(description, quartier.description);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(libelle, description);
-    }
 }

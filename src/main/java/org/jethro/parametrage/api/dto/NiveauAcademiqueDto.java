@@ -14,7 +14,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class FiliereDto extends BaseEntityDTO {
+public class NiveauAcademiqueDto extends BaseEntityDTO {
 
     private String libelle;
     private String description;
@@ -22,7 +22,7 @@ public class FiliereDto extends BaseEntityDTO {
     private Integer nombreHomme;
     private Integer totalPersonne;
 
-    public FiliereDto(String libelle, String description) {
+    public NiveauAcademiqueDto(String libelle, String description) {
         this.libelle = libelle;
         this.description = description;
     }
