@@ -26,9 +26,9 @@ public class Municipality extends BaseEntityDTO {
     }
 
     public Municipality(VQuartier vQuartier) {
-        this.uuid = vQuartier.idCommune;
-        this.code = vQuartier.codeCommune;
-        this.libelle = vQuartier.libelleCommune;
+        this.uuid = (vQuartier!=null)?vQuartier.idCommune:null;
+        this.code = (vQuartier!=null)?vQuartier.codeCommune:null;
+        this.libelle = (vQuartier!=null)?vQuartier.libelleCommune:null;
     }
 
     @Override
