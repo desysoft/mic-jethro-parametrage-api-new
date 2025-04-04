@@ -6,8 +6,8 @@ import org.hibernate.annotations.Subselect;
 
 @Entity
 @Immutable
-@Subselect(VFiliere.QUERY)
-public class VFiliere extends BaseEntityForParameterView {
+@Subselect(VTypeTravailleur.QUERY)
+public class VTypeTravailleur extends BaseEntityForParameterView {
 
   public static final String QUERY = """
     SELECT
@@ -17,8 +17,8 @@ public class VFiliere extends BaseEntityForParameterView {
           COUNT(p.id) FILTER (WHERE s.str_code = 'M') AS nombre_hommes,
           COUNT(p.id) FILTER (WHERE s.str_code = 'F') AS nombre_femmes,
           COUNT(p.id) AS total_personnes
-          FROM parametrage.filiere t
-          LEFT JOIN "members-management".person p ON t.id = p.pkey_filiere_id
+          FROM parametrage.type_travailleur t
+          LEFT JOIN "members-management".person p ON t.id = p.pkey_workertype_id
           LEFT JOIN parametrage.sexe s ON s.id = p.pkey_sexe_id
           WHERE t.status = 'enable'
           GROUP BY t.id, t.str_code, t.str_name
