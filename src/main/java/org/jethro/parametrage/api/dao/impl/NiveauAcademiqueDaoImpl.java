@@ -16,7 +16,7 @@ public class NiveauAcademiqueDaoImpl extends CommonDao<NiveauAcademique> impleme
         try {
             LOG.info("save");
             if(niveauAcademique.code == null) {
-                niveauAcademique.code = ToolString.getComplexId();
+                niveauAcademique.code = ToolString.getComplexId(ParametersConfig.ACADEMIC_LEVEL_CODE_PREFIXE);
             }
             if(this.isExistCode(niveauAcademique.code)){
                 LOG.info("isExistCode");

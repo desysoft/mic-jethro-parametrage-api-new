@@ -16,7 +16,7 @@ public class TypeTravailleurDaoImpl extends CommonDao<TypeTravailleur> implement
         try {
             LOG.info("save");
             if(typeTravailleur.code == null) {
-                typeTravailleur.code = ToolString.getComplexId();
+                typeTravailleur.code = ToolString.getComplexId(ParametersConfig.WORKER_TYPE_CODE_PREFIXE);
             }
             if(this.isExistCode(typeTravailleur.code)){
                 LOG.info("isExistCode");

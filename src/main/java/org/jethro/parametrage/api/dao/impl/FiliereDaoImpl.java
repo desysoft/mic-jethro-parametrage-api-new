@@ -19,7 +19,7 @@ public class FiliereDaoImpl extends CommonDao<Filiere> implements
     try {
       LOG.info("save");
       if(filiere.code == null) {
-        filiere.code = ToolString.getComplexId();
+        filiere.code = ToolString.getComplexId(ParametersConfig.PATHWAY_CODE_PREFIXE);
       }
       if (this.isExistCode(filiere.code)) {
         LOG.info("isExistCode");

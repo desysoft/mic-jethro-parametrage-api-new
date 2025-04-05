@@ -50,9 +50,6 @@ public abstract class BaseEntity extends PanacheEntityBase {
         this.createdDate = LocalDateTime.now();
         this.uuid = generateEntityId();
         this.status = ParametersConfig.status_enable;
-        if(this.code == null) {
-            this.code = ToolString.getComplexId();
-        }
     }
 
 

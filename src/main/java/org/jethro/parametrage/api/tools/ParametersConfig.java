@@ -89,6 +89,15 @@ public class ParametersConfig {
 
     public static String path_report_img_entete = "classes/META-INF/resources/images/entete.png";
 
+    public static String PATHWAY_CODE_PREFIXE="F";
+    public static String NEIGHBORHOOD_CODE_PREFIXE="Q";
+    public static String ACADEMIC_LEVEL_CODE_PREFIXE="NA";
+    public static String PROFESSION_CODE_PREFIXE="P";
+    public static String MARITAL_STATUS_CODE_PREFIXE="SM";
+    public static String SLICE_AGE_CODE_PREFIXE="TA";
+    public static String TYPE_ACADEMIC_STATUS_CODE_PREFIXE="SA";
+    public static String WORKER_TYPE_CODE_PREFIXE="TP";
+
 
     public static String path_img_logo = "classes/META-INF/resources/images/logo_siib.png";
     public static String path_report_output_qrcode_file = System.getProperty("java.io.tmpdir")+"/qrcode/output/";

@@ -21,12 +21,12 @@ public class ToolString {
         return sb.toString();
     }
 
-    public static String getComplexId() {
+    public static String getComplexId(String prefixe) {
         // Obtenir la date et l'heure actuelles
         LocalDateTime now = LocalDateTime.now();
 
         // Formater la date/heure comme yyyyMMddHHmmss
-        String formattedDateTime = now.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+        String formattedDateTime = now.format(DateTimeFormatter.ofPattern("yyMMddHHmmss"));
 
         // Obtenir les millisecondes actuelles (convertir les nanosecondes)
         int milliseconds = now.getNano() / 1_000_000;
@@ -44,6 +44,6 @@ public class ToolString {
         if (catime.length() > 20) {
             catime = catime.substring(0, 20);
         }
-        return catime;
+        return prefixe+"_"+catime;
     }
 }

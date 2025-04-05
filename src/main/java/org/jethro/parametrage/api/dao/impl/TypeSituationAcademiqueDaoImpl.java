@@ -16,7 +16,7 @@ public class TypeSituationAcademiqueDaoImpl extends CommonDao<TypeSituationAcade
         try {
             LOG.info("save");
             if(typeSituationAcademique.code == null) {
-                typeSituationAcademique.code = ToolString.getComplexId();
+                typeSituationAcademique.code = ToolString.getComplexId(ParametersConfig.TYPE_ACADEMIC_STATUS_CODE_PREFIXE);
             }
             if(this.isExistCode(typeSituationAcademique.code)){
                 LOG.info("isExistCode");

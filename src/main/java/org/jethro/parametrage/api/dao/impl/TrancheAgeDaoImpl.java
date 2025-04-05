@@ -16,7 +16,7 @@ public class TrancheAgeDaoImpl extends CommonDao<TrancheAge> implements
         try {
             LOG.info("save");
             if(trancheAge.code == null) {
-                trancheAge.code = ToolString.getComplexId();
+                trancheAge.code = ToolString.getComplexId(ParametersConfig.SLICE_AGE_CODE_PREFIXE);
             }
             if(this.isExistCode(trancheAge.code)){
                 LOG.info("isExistCode");

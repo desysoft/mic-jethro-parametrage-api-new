@@ -16,7 +16,7 @@ public class ProfessionDaoImpl extends CommonDao<Profession> implements Professi
         try {
             LOG.info("save");
             if(profession.code == null) {
-                profession.code = ToolString.getComplexId();
+                profession.code = ToolString.getComplexId(ParametersConfig.PROFESSION_CODE_PREFIXE);
             }
             if(this.isExistCode(profession.code)){
                 LOG.info("isExistCode");

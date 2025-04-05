@@ -55,7 +55,7 @@ public class NeighborhoodDaoImpl extends CommonDao<Neighborhood> implements Neig
         try {
             LOG.info("save");
             if(neighborhood.code == null || neighborhood.code.isEmpty()) {
-                neighborhood.code = ToolString.getComplexId();
+                neighborhood.code = ToolString.getComplexId(ParametersConfig.NEIGHBORHOOD_CODE_PREFIXE);
             }
             if(this.isExistCode(neighborhood.code)){
                 LOG.info("isExistCode");

@@ -16,7 +16,7 @@ public class SituationMatrimonialeDaoImpl extends CommonDao<SituationMatrimonial
         try {
             LOG.info("save");
             if(situationMatrimoniale.code == null) {
-                situationMatrimoniale.code = ToolString.getComplexId();
+                situationMatrimoniale.code = ToolString.getComplexId(ParametersConfig.MARITAL_STATUS_CODE_PREFIXE);
             }
             if(this.isExistCode(situationMatrimoniale.code)){
                 LOG.info("isExistCode");
