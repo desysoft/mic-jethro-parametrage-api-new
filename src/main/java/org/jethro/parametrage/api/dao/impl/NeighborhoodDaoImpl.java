@@ -20,91 +20,101 @@ import org.jethro.parametrage.api.tools.string.ToolString;
 @ApplicationScoped
 public class NeighborhoodDaoImpl extends CommonDao<Neighborhood> implements NeighborhoodDao {
 
-    @Inject
-    NeighborhoodMapper neighborhoodMapper;
+  @Inject
+  NeighborhoodMapper neighborhoodMapper;
 
-    public List<Neighborhood> getByCommune(String idCommune, int pageIndex, int pageSize){
-        Map<String, Object> params = new HashMap<>();
-        idCommune = checkAndGetForSearchValue(idCommune);
-        params.put("idCommune", idCommune);
-        PanacheQuery<Neighborhood> panacheQuery =  find("commune.uuid LIKE ?1 and status = ?2",idCommune, ParametersConfig.status_enable);
-        if(pageSize==0){
-            return panacheQuery.list();
-        }else {
-            return panacheQuery.page(pageIndex,pageSize).list();
+  public List<Neighborhood> getByCommune(String idCommune, int pageIndex, int pageSize) {
+    Map<String, Object> params = new HashMap<>();
+    idCommune = checkAndGetForSearchValue(idCommune);
+    params.put("idCommune", idCommune);
+    PanacheQuery<Neighborhood> panacheQuery =
+        find("commune.uuid LIKE ?1 and status = ?2", idCommune, ParametersConfig.status_enable);
+    if (pageSize == 0) {
+      return panacheQuery.list();
+    } else {
+      return panacheQuery.page(pageIndex, pageSize).list();
+    }
+  }
+
+  @Override
+  public Neighborhood saveByNeighborhoodCreateDTO(NeighborhoodCreateDto neighborhoodCreateDto) {
+    Neighborhood neighborhood = neighborhoodMapper.createDtoToEntity(neighborhoodCreateDto);
+    return this.save(neighborhood);
+  }
+
+  @Override
+  public Neighborhood updateByNeighborhoodUpdateDto(NeighborhoodUpdateDto neighborhoodUpdateDTO) {
+    Neighborhood neighborhood = neighborhoodMapper.updateDtoToEntity(neighborhoodUpdateDTO);
+    return this.update(neighborhoodUpdateDTO.getUuid(), neighborhood);
+  }
+
+  public String getName() {
+    return "kcjdcg";
+  }
+
+  public Neighborhood save(Neighborhood neighborhood) {
+    try {
+      LOG.info("save");
+      if (neighborhood.code == null || neighborhood.code.isEmpty()) {
+        neighborhood.code = ToolString.getComplexId(ParametersConfig.NEIGHBORHOOD_CODE_PREFIXE);
+      }
+      if (this.isExistCode(neighborhood.code)) {
+        LOG.info("isExistCode");
+        this.setMessage(ParametersConfig.PROCESS_FAILED);
+        this.setDetailMessage(ParametersConfig.codeAlreadyExist);
+        throw new CodeExistException(this.getDetailMessage());
+      }
+      this.persist(neighborhood);
+      return neighborhood;
+    } catch (Exception e) {
+      this.setMessage(ParametersConfig.PROCESS_FAILED);
+      throw new RuntimeException(e);
+    }
+  }
+
+  public Neighborhood update(String uuid, Neighborhood neighborhoodForUpdate) {
+    try {
+      Neighborhood neighborhoodFind = this.findByIdCustom(uuid);
+      if (neighborhoodFind == null) {
+        this.setMessage(ParametersConfig.PROCESS_FAILED);
+        this.setDetailMessage(ParametersConfig.genericNotFoundMessage);
+        throw new ObjectNotFoundException(this.getDetailMessage());
+      }
+
+        if (neighborhoodForUpdate.code != null) {
+            neighborhoodFind.code = neighborhoodForUpdate.code;
         }
-    }
-
-    @Override
-    public Neighborhood saveByNeighborhoodCreateDTO(NeighborhoodCreateDto neighborhoodCreateDto) {
-        Neighborhood neighborhood = neighborhoodMapper.createDtoToEntity(neighborhoodCreateDto);
-        return this.save(neighborhood);
-    }
-
-    @Override
-    public Neighborhood updateByNeighborhoodUpdateDto(NeighborhoodUpdateDto neighborhoodUpdateDTO) {
-        Neighborhood neighborhood = neighborhoodMapper.updateDtoToEntity(neighborhoodUpdateDTO);
-        return this.update(neighborhoodUpdateDTO.getUuid(), neighborhood);
-    }
-
-    public String getName(){
-        return "kcjdcg";
-    }
-
-    public Neighborhood save(Neighborhood neighborhood){
-        try {
-            LOG.info("save");
-            if(neighborhood.code == null || neighborhood.code.isEmpty()) {
-                neighborhood.code = ToolString.getComplexId(ParametersConfig.NEIGHBORHOOD_CODE_PREFIXE);
-            }
-            if(this.isExistCode(neighborhood.code)){
-                LOG.info("isExistCode");
-                this.setMessage(ParametersConfig.PROCESS_FAILED);
-                this.setDetailMessage(ParametersConfig.codeAlreadyExist);
-                throw new CodeExistException(this.getDetailMessage());
-            }
-            this.persist(neighborhood);
-            return neighborhood;
-        }catch (Exception e){
-            this.setMessage(ParametersConfig.PROCESS_FAILED);
-            throw new RuntimeException(e);
+        if (neighborhoodForUpdate.libelle != null) {
+            neighborhoodFind.libelle = neighborhoodForUpdate.libelle;
         }
-    }
-
-    public Neighborhood update(String uuid, Neighborhood neighborhoodForUpdate){
-        try {
-            Neighborhood neighborhoodFind = this.findByIdCustom(uuid);
-            if(neighborhoodFind ==null){
-                this.setMessage(ParametersConfig.PROCESS_FAILED);
-                this.setDetailMessage(ParametersConfig.genericNotFoundMessage);
-                throw new ObjectNotFoundException(this.getDetailMessage());
-            }
-
-            if(neighborhoodForUpdate.code!=null) neighborhoodFind.code = neighborhoodForUpdate.code;
-            if(neighborhoodForUpdate.libelle!=null) neighborhoodFind.libelle = neighborhoodForUpdate.libelle;
-            if(neighborhoodForUpdate.description!=null) neighborhoodFind.description = neighborhoodForUpdate.description;
-            if(neighborhoodForUpdate.commune!=null) neighborhoodFind.commune = neighborhoodForUpdate.commune;
-            System.out.println("update +++ neighborhoodForUpdate.commune === "+neighborhoodForUpdate.commune);
-            this.persist(neighborhoodFind);
-            return neighborhoodFind;
-        }catch (Exception e){
-            e.printStackTrace();
-            throw new RuntimeException(e);
+        if (neighborhoodForUpdate.description != null) {
+            neighborhoodFind.description = neighborhoodForUpdate.description;
         }
-    }
-
-    public boolean delete(String uuid){
-        try {
-            Neighborhood neighborhood = this.findByIdCustom(uuid);
-            if(neighborhood ==null){
-                this.setMessage(ParametersConfig.PROCESS_FAILED);
-                this.setDetailMessage(ParametersConfig.genericNotFoundMessage);
-                return false;
-            }
-            neighborhood.delete();
-            return this.findByIdCustom(uuid)==null;
-        }catch (Exception e){
-            throw new RuntimeException(e);
+        if (neighborhoodForUpdate.commune != null) {
+            neighborhoodFind.commune = neighborhoodForUpdate.commune;
         }
+      System.out.println(
+          "update +++ neighborhoodForUpdate.commune === " + neighborhoodForUpdate.commune);
+      this.persist(neighborhoodFind);
+      return neighborhoodFind;
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new RuntimeException(e);
     }
+  }
+
+  public boolean delete(String uuid) {
+    try {
+      Neighborhood neighborhood = this.findByIdCustom(uuid);
+      if (neighborhood == null) {
+        this.setMessage(ParametersConfig.PROCESS_FAILED);
+        this.setDetailMessage(ParametersConfig.genericNotFoundMessage);
+        return false;
+      }
+      neighborhood.delete();
+      return this.findByIdCustom(uuid) == null;
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
 }

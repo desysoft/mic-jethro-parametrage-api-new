@@ -32,6 +32,6 @@ public class VQuartier extends BaseEntityForParameterView {
          LEFT JOIN parametrage.sexe s ON s.id = p.pkey_sexe_id
          WHERE q.status = 'enable'
          GROUP BY c.id, c.str_name,c.str_code,q.id,q.str_code, q.str_name
-         ORDER BY c.str_code,c.str_name,q.id,q.str_code, q.str_name
+         ORDER BY total_personnes DESC , q.str_name
       """;
 }

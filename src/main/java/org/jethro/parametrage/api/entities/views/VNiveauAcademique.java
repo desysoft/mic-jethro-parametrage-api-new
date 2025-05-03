@@ -22,6 +22,6 @@ public class VNiveauAcademique extends BaseEntityForParameterView {
           LEFT JOIN parametrage.sexe s ON s.id = p.pkey_sexe_id
           WHERE t.status = 'enable'
           GROUP BY t.id, t.str_code, t.str_name
-          ORDER BY t.str_code, t.str_name
+          ORDER BY total_personnes DESC ,t.str_code, t.str_name
       """;
 }
