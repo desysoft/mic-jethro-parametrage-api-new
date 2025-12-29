@@ -1,7 +1,7 @@
 export HOST=localhost
 export USER=postgres
 export PASSWORD=admin
-export PORT=5433
+export PORT=5432
 export PORT_API=8592
 export PATH=$PATH:$JAVA_HOME/bin
 export KEYCLOAK_URL=http://localhost:9980/realms/JETHRO
