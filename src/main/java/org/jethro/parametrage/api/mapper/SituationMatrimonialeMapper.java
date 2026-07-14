@@ -28,7 +28,7 @@ public class SituationMatrimonialeMapper implements BaseMapper<SituationMatrimon
     dto.setLibelle(vSituationMatrimoniale.libelle);
     dto.setNombreHomme(vSituationMatrimoniale.nombreHomme);
     dto.setNombreFemme(vSituationMatrimoniale.nombreFemme);
-    dto.setTotalPersonne(vSituationMatrimoniale.totalPersons);
+    dto.setTotalPersons(vSituationMatrimoniale.totalPersons);
     return dto;
   }
 

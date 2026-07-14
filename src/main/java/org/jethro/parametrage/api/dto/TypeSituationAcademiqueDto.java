@@ -20,7 +20,7 @@ public class TypeSituationAcademiqueDto extends BaseEntityDTO {
     private String description;
     private Integer nombreFemme;
     private Integer nombreHomme;
-    private Integer totalPersonne;
+    private Integer totalPersons;
 
     public TypeSituationAcademiqueDto(String libelle, String description) {
         this.libelle = libelle;

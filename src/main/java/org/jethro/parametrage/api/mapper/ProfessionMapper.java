@@ -28,7 +28,7 @@ public class ProfessionMapper implements BaseMapper<Profession, ProfessionDto>, 
     dto.setLibelle(vProfession.libelle);
     dto.setNombreHomme(vProfession.nombreHomme);
     dto.setNombreFemme(vProfession.nombreFemme);
-    dto.setTotalPersonne(vProfession.totalPersons);
+    dto.setTotalPersons(vProfession.totalPersons);
     return dto;
   }
 

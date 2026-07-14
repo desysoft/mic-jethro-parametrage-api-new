@@ -28,7 +28,7 @@ public class TypeSituationAcademiqueMapper implements BaseMapper<TypeSituationAc
     dto.setLibelle(vTypeSituationAcademique.libelle);
     dto.setNombreHomme(vTypeSituationAcademique.nombreHomme);
     dto.setNombreFemme(vTypeSituationAcademique.nombreFemme);
-    dto.setTotalPersonne(vTypeSituationAcademique.totalPersons);
+    dto.setTotalPersons(vTypeSituationAcademique.totalPersons);
     return dto;
   }
 

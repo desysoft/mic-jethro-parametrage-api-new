@@ -18,7 +18,7 @@ public class SexeDto extends BaseEntityDTO {
 
     private String libelle;
     private String description;
-    private Integer totalPersonne;
+    private Integer totalPersons;
 
     public SexeDto(String libelle, String description) {
         this.libelle = libelle;

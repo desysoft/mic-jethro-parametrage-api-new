@@ -28,7 +28,7 @@ public class TrancheAgeMapper implements BaseMapper<TrancheAge, TrancheAgeDto>, 
     dto.setLibelle(vTrancheAge.libelle);
     dto.setNombreHomme(vTrancheAge.nombreHomme);
     dto.setNombreFemme(vTrancheAge.nombreFemme);
-    dto.setTotalPersonne(vTrancheAge.totalPersons);
+    dto.setTotalPersons(vTrancheAge.totalPersons);
     return dto;
   }
 

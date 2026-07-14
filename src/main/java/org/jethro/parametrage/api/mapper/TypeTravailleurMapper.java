@@ -28,7 +28,7 @@ public class TypeTravailleurMapper implements BaseMapper<TypeTravailleur, TypeTr
     dto.setLibelle(vTypeTravailleur.libelle);
     dto.setNombreHomme(vTypeTravailleur.nombreHomme);
     dto.setNombreFemme(vTypeTravailleur.nombreFemme);
-    dto.setTotalPersonne(vTypeTravailleur.totalPersons);
+    dto.setTotalPersons(vTypeTravailleur.totalPersons);
     return dto;
   }
 

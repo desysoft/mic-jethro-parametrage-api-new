@@ -28,7 +28,7 @@ public class DiplomeMapper implements BaseMapper<Diplome, DiplomeDto>, BaseViewM
     dto.setLibelle(vDiplome.libelle);
     dto.setNombreHomme(vDiplome.nombreHomme);
     dto.setNombreFemme(vDiplome.nombreFemme);
-    dto.setTotalPersonne(vDiplome.totalPersons);
+    dto.setTotalPersons(vDiplome.totalPersons);
     return dto;
   }
 

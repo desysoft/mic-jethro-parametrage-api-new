@@ -28,7 +28,7 @@ public class NiveauAcademiqueMapper implements BaseMapper<NiveauAcademique, Nive
     dto.setLibelle(vNiveauAcademique.libelle);
     dto.setNombreHomme(vNiveauAcademique.nombreHomme);
     dto.setNombreFemme(vNiveauAcademique.nombreFemme);
-    dto.setTotalPersonne(vNiveauAcademique.totalPersons);
+    dto.setTotalPersons(vNiveauAcademique.totalPersons);
     return dto;
   }
 

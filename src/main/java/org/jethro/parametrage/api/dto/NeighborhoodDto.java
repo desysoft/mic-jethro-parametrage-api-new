@@ -20,7 +20,7 @@ public class NeighborhoodDto extends BaseEntityDTO {
     private Municipality municipality;
     private Integer nombreFemme;
     private Integer nombreHomme;
-    private Integer totalPersonne;
+    private Integer totalPersons;
 
     public NeighborhoodDto(String libelle, String description) {
         this.libelle = libelle;

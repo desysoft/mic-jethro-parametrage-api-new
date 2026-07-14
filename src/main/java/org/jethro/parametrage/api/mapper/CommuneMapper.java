@@ -32,7 +32,7 @@ public class CommuneMapper  implements BaseMapper<Commune, Municipality>, BaseVi
     dto.setLibelle(vMunicipality.libelle);
     dto.setNombreHomme(vMunicipality.nombreHomme);
     dto.setNombreFemme(vMunicipality.nombreFemme);
-    dto.setTotalPersonne(vMunicipality.totalPersons);
+    dto.setTotalPersons(vMunicipality.totalPersons);
     return dto;
   }
 

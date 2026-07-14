@@ -28,7 +28,7 @@ public class FiliereMapper implements BaseMapper<Filiere, FiliereDto>, BaseViewM
     dto.setLibelle(vFiliere.libelle);
     dto.setNombreHomme(vFiliere.nombreHomme);
     dto.setNombreFemme(vFiliere.nombreFemme);
-    dto.setTotalPersonne(vFiliere.totalPersons);
+    dto.setTotalPersons(vFiliere.totalPersons);
     return dto;
   }
 

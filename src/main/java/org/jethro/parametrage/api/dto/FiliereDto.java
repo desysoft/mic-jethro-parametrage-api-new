@@ -20,7 +20,7 @@ public class FiliereDto extends BaseEntityDTO {
     private String description;
     private Integer nombreFemme;
     private Integer nombreHomme;
-    private Integer totalPersonne;
+    private Integer totalPersons;
 
     public FiliereDto(String libelle, String description) {
         this.libelle = libelle;

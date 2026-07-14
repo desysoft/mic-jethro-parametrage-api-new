@@ -63,7 +63,7 @@ public class NeighborhoodMapper implements BaseMapper<Neighborhood, Neighborhood
     neighborhoodDto.setLibelle(vQuartier.libelle);
     neighborhoodDto.setNombreHomme(vQuartier.nombreHomme);
     neighborhoodDto.setNombreFemme(vQuartier.nombreFemme);
-    neighborhoodDto.setTotalPersonne(vQuartier.totalPersons);
+    neighborhoodDto.setTotalPersons(vQuartier.totalPersons);
     neighborhoodDto.setMunicipality(new Municipality(vQuartier));
     return neighborhoodDto;
   }

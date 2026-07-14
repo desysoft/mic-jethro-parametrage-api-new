@@ -19,7 +19,7 @@ public class Municipality extends BaseEntityDTO {
     private String description;
     private Integer nombreFemme;
     private Integer nombreHomme;
-    private Integer totalPersonne;
+    private Integer totalPersons;
 
 
     public Municipality(String libelle, String description) {
