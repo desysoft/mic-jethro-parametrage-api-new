@@ -16,7 +16,6 @@ public class ProfessionService implements BasicCommonService<Profession>{
 
      @Override
      public List<Profession> obtenirListe(int pageIndex, int pageSize) {
-          System.out.println("obtenirListe");
           if(pageSize==0){
                return professionDao.getList();
           }else{

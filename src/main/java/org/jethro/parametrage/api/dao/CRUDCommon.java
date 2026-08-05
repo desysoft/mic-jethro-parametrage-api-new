@@ -1,7 +1,6 @@
 package org.jethro.parametrage.api.dao;
 
 import java.util.List;
-import org.jethro.parametrage.api.exceptions.ProfessionCodeExistException;
 
 public interface CRUDCommon<T> {
 

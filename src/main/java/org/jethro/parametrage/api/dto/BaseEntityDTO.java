@@ -15,5 +15,4 @@ public abstract class BaseEntityDTO {
     protected String createdBy;
     protected String updatedBy;
     protected String status;*/
-    protected String pkey_institution_id;
 }

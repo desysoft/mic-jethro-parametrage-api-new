@@ -45,8 +45,6 @@ public class DateTools {
      *
      */
     public static Boolean dateStartIsSmallThanDateEnd(LocalDateTime ldtStart, LocalDateTime ldtEnd){
-        System.out.println("Date début ==="+ldtStart);
-        System.out.println("Date fin ==="+ldtEnd);
         if(ldtStart==null) return false;
         if(ldtEnd==null) return true;
         return Duration.between(ldtEnd,ldtStart).isNegative();
