@@ -3,6 +3,7 @@ package org.jethro.parametrage.api.dao;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import org.jethro.parametrage.api.entities.Commune;
 import org.jethro.parametrage.api.tools.ParametersConfig;
+import org.jethro.parametrage.api.tools.string.ToolString;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import java.util.HashMap;
@@ -28,6 +29,9 @@ public class CommuneDao extends CommonDao<Commune> {
     public Commune save(Commune commune){
         try {
             LOG.info("save");
+            if(commune.code == null || commune.code.isEmpty()) {
+                commune.code = ToolString.getComplexId(ParametersConfig.MUNICIPALITY_CODE_PREFIXE);
+            }
             if(this.isExistCode(commune.code)){
                 LOG.info("isExistCode");
                 this.setMessage(ParametersConfig.PROCESS_FAILED);

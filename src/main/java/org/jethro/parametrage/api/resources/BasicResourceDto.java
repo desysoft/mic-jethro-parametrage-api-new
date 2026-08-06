@@ -15,11 +15,14 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.jethro.parametrage.api.dao.OperationFeedback;
 import org.jethro.parametrage.api.mapper.BaseMapper;
 import org.jethro.parametrage.api.services.BasicCommonService;
+import org.jethro.parametrage.api.tools.ParametersConfig;
 
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -30,6 +33,9 @@ public class BasicResourceDto<T,S> implements IBasicResourceDto<T,S> {
 
     @Inject
     BaseMapper<T,S> mapper;
+
+    @Inject
+    OperationFeedback operationFeedback;
 
     @Override
     @GET
@@ -100,12 +106,30 @@ public class BasicResourceDto<T,S> implements IBasicResourceDto<T,S> {
         return mapper.toDto(service.modifer(id,t));
     }
 
+    /**
+     * cf. BasicResource_Hold.supprimer (même correctif) : renvoie le detailMessage du DAO
+     * en 500 plutôt qu'un simple "false", pour que le motif de l'échec remonte jusqu'au
+     * frontend au lieu d'un message générique sans cause.
+     */
     @Override
     @DELETE
     @Path("{id}")
     @Transactional
-    public Boolean supprimer(@PathParam("id") String id){
-        return service.supprimer(id);
+    public Response supprimer(@PathParam("id") String id){
+        try {
+            if (Boolean.TRUE.equals(service.supprimer(id))) {
+                return Response.ok(true).build();
+            }
+        } catch (Exception e) {
+            String detail = operationFeedback.getDetailMessage();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(detail != null ? detail : e.getMessage())
+                    .build();
+        }
+        String detail = operationFeedback.getDetailMessage();
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                .entity(detail != null ? detail : ParametersConfig.FAILED_DELETE)
+                .build();
     }
 
     @Override

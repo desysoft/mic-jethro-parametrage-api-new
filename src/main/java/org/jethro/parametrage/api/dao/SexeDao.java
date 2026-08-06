@@ -2,6 +2,7 @@ package org.jethro.parametrage.api.dao;
 
 import org.jethro.parametrage.api.entities.Sexe;
 import org.jethro.parametrage.api.tools.ParametersConfig;
+import org.jethro.parametrage.api.tools.string.ToolString;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -11,6 +12,9 @@ public class SexeDao extends CommonDao<Sexe> {
     public Sexe save(Sexe sexe){
         try {
             LOG.info("save");
+            if(sexe.code == null || sexe.code.isEmpty()) {
+                sexe.code = ToolString.getComplexId(ParametersConfig.SEXE_CODE_PREFIXE);
+            }
             if(this.isExistCode(sexe.code)){
                 LOG.info("isExistCode");
                 this.setMessage(ParametersConfig.PROCESS_FAILED);

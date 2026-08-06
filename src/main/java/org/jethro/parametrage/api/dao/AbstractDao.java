@@ -8,27 +8,33 @@ import jakarta.persistence.EntityManager;
 
 public abstract class AbstractDao {
 
-    String message;
-    String detailMessage;
+    /**
+     * @RequestScoped plutôt que des champs directs : les DAO sont @ApplicationScoped
+     * (instance unique partagée par toutes les requêtes), donc stocker message/
+     * detailMessage directement dessus les faisait fuiter entre requêtes concurrentes.
+     */
+    @Inject
+    OperationFeedback operationFeedback;
+
     @Inject
     EntityManager em;
 
-    
+
 
     public String getMessage() {
-        return message;
+        return operationFeedback.getMessage();
     }
 
     public void setMessage(String message) {
-        this.message = message;
+        operationFeedback.setMessage(message);
     }
 
     public String getDetailMessage() {
-        return detailMessage;
+        return operationFeedback.getDetailMessage();
     }
 
     public void setDetailMessage(String detailMessage) {
-        this.detailMessage = detailMessage;
+        operationFeedback.setDetailMessage(detailMessage);
     }
 
     public EntityManager getEm() {

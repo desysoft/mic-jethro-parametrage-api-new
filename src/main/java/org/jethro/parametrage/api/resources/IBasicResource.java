@@ -46,7 +46,7 @@ public interface IBasicResource<T> {
   @DELETE
   @Path("{id}")
   @Transactional
-  Boolean supprimer(@PathParam("id") String id);
+  Response supprimer(@PathParam("id") String id);
 
   BasicCommonService<T> getService();
 }

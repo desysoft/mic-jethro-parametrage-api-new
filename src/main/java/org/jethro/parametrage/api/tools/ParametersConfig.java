@@ -35,6 +35,9 @@ public class ParametersConfig {
     public static String SLICE_AGE_CODE_PREFIXE="TA";
     public static String TYPE_ACADEMIC_STATUS_CODE_PREFIXE="SA";
     public static String WORKER_TYPE_CODE_PREFIXE="TP";
+    public static String SEXE_CODE_PREFIXE="SX";
+    public static String MUNICIPALITY_CODE_PREFIXE="CM";
+    public static String DEGREE_CODE_PREFIXE="D";
 
     // Message des bean valisation en cas d'érreur.
     public static final String BVM_NOT_BLANK = "Le paramètre requis ne dois pas être vide ou null";

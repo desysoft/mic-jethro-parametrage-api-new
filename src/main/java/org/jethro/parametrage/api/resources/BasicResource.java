@@ -7,7 +7,9 @@ import jakarta.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
 import jakarta.ws.rs.core.Response;
+import org.jethro.parametrage.api.dao.OperationFeedback;
 import org.jethro.parametrage.api.services.BasicCommonService;
+import org.jethro.parametrage.api.tools.ParametersConfig;
 
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -15,6 +17,9 @@ public class BasicResource<T> implements IBasicResource<T> {
 
     @Inject
     BasicCommonService<T> service;
+
+    @Inject
+    OperationFeedback operationFeedback;
 
     @Override
     @GET
@@ -79,12 +84,30 @@ public class BasicResource<T> implements IBasicResource<T> {
         return service.modifer(id,t);
     }
 
+    /**
+     * cf. BasicResource_Hold.supprimer (même correctif) : renvoie le detailMessage du DAO
+     * en 500 plutôt qu'un simple "false", pour que le motif de l'échec remonte jusqu'au
+     * frontend au lieu d'un message générique sans cause.
+     */
     @Override
     @DELETE
     @Path("{id}")
     @Transactional
-    public Boolean supprimer(@PathParam("id") String id){
-        return service.supprimer(id);
+    public Response supprimer(@PathParam("id") String id){
+        try {
+            if (Boolean.TRUE.equals(service.supprimer(id))) {
+                return Response.ok(true).build();
+            }
+        } catch (Exception e) {
+            String detail = operationFeedback.getDetailMessage();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(detail != null ? detail : e.getMessage())
+                    .build();
+        }
+        String detail = operationFeedback.getDetailMessage();
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                .entity(detail != null ? detail : ParametersConfig.FAILED_DELETE)
+                .build();
     }
 
     @Override

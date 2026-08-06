@@ -10,6 +10,7 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.Response;
 import java.util.List;
 import org.jethro.parametrage.api.mapper.BaseMapper;
 import org.jethro.parametrage.api.services.BasicCommonService;
@@ -46,7 +47,7 @@ public interface IBasicResourceDto<T,S> {
   @DELETE
   @Path("{id}")
   @Transactional
-  Boolean supprimer(@PathParam("id") String id);
+  Response supprimer(@PathParam("id") String id);
 
   BasicCommonService<T> getService();
 

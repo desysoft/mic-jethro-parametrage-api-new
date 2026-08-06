@@ -5,6 +5,7 @@ import org.jethro.parametrage.api.dao.CommonDao;
 import org.jethro.parametrage.api.dao.DiplomeDao;
 import org.jethro.parametrage.api.entities.Diplome;
 import org.jethro.parametrage.api.tools.ParametersConfig;
+import org.jethro.parametrage.api.tools.string.ToolString;
 
 @ApplicationScoped
 public class DiplomeDaoImpl extends CommonDao<Diplome> implements
@@ -14,6 +15,9 @@ public class DiplomeDaoImpl extends CommonDao<Diplome> implements
     public Diplome save(Diplome diplome){
         try {
             LOG.info("save");
+            if(diplome.code == null || diplome.code.isEmpty()) {
+                diplome.code = ToolString.getComplexId(ParametersConfig.DEGREE_CODE_PREFIXE);
+            }
             if(this.isExistCode(diplome.code)){
                 LOG.info("isExistCode");
                 this.setMessage(ParametersConfig.PROCESS_FAILED);
