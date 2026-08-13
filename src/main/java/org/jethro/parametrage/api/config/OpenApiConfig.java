@@ -11,7 +11,10 @@ import org.eclipse.microprofile.openapi.annotations.info.Info;
  * la propriete openapi.security.enabled : voir ce filtre pour le detail.
  */
 @OpenAPIDefinition(
-    info = @Info(title = "mic-jethro-parametrage-api API", version = "1.0.0-SNAPSHOT")
+    info = @Info(title = "mic-jethro-parametrage-api API", version = "1.0.0-SNAPSHOT",
+        description = "API de référentiels (paramétrage) pour l'écosystème JETHRO : nomenclatures "
+            + "géographiques, académiques, professionnelles et personnelles. Fournisseur de "
+            + "données en lecture pour mic-members-managers-api.")
 )
 public class OpenApiConfig extends Application {
 }

@@ -7,6 +7,10 @@ import jakarta.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
 import jakarta.ws.rs.core.Response;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.jethro.parametrage.api.dao.OperationFeedback;
 import org.jethro.parametrage.api.services.BasicCommonService;
 import org.jethro.parametrage.api.tools.ParametersConfig;
@@ -21,10 +25,12 @@ public class BasicResource<T> implements IBasicResource<T> {
     @Inject
     OperationFeedback operationFeedback;
 
+    @Operation(summary = "Liste paginée. pageSize=0 renvoie l'intégralité sans pagination.")
     @Override
     @GET
-    public List<T> obtenirListe(@HeaderParam("pageIndex") @DefaultValue("0") int pageIndex
-        , @HeaderParam("pageSize") @DefaultValue("0") int pageSize){
+    public List<T> obtenirListe(
+        @Parameter(description = "index de page, 0-based") @HeaderParam("pageIndex") @DefaultValue("0") int pageIndex
+        , @Parameter(description = "taille de page, 0 = pas de pagination") @HeaderParam("pageSize") @DefaultValue("0") int pageSize){
         try {
             return service.obtenirListe(pageIndex,pageSize);
         }catch (Exception e){
@@ -34,13 +40,14 @@ public class BasicResource<T> implements IBasicResource<T> {
     }
 
 
+    @Operation(summary = "Recherche paginée par texte libre (paramètre query). pageSize=0 renvoie l'intégralité des résultats sans pagination.")
     @Override
     @GET
     @Path("search")
     public List<T> rechercher(
-        @QueryParam("query") @DefaultValue("") String searchValue
-        , @HeaderParam("pageIndex") @DefaultValue("0") int pageIndex
-        , @HeaderParam("pageSize") @DefaultValue("0") int pageSize){
+        @Parameter(description = "texte recherché") @QueryParam("query") @DefaultValue("") String searchValue
+        , @Parameter(description = "index de page, 0-based") @HeaderParam("pageIndex") @DefaultValue("0") int pageIndex
+        , @Parameter(description = "taille de page, 0 = pas de pagination") @HeaderParam("pageSize") @DefaultValue("0") int pageSize){
         try {
             return service.rechercher(searchValue,pageIndex,pageSize);
         }catch (Exception e){
@@ -49,21 +56,28 @@ public class BasicResource<T> implements IBasicResource<T> {
         return new ArrayList<>();
     }
 
+    @Operation(summary = "Recherche un élément par son identifiant technique (uuid).")
     @Override
     @GET
     @Path("{id}")
-    public T trouverParId(@PathParam("id") String id){
+    public T trouverParId(@Parameter(description = "uuid de l'élément", required = true) @PathParam("id") String id){
         return service.touverParId(id);
         //return this.trouverParId(id);
     }
 
+    @Operation(summary = "Recherche un élément par son code métier unique.")
     @Override
     @GET
     @Path("code/{code}")
-    public T trouverParCode(@PathParam("code") String code){
+    public T trouverParCode(@Parameter(description = "code métier de l'élément", required = true) @PathParam("code") String code){
         return service.touverParCode(code);
     }
 
+    @Operation(summary = "Crée un nouvel élément.")
+    @APIResponses({
+        @APIResponse(responseCode = "201", description = "Élément créé"),
+        @APIResponse(responseCode = "500", description = "Échec de la création : message détaillant la cause (ex. code déjà existant)")
+    })
     @Override
     @POST
     @Transactional
@@ -76,11 +90,12 @@ public class BasicResource<T> implements IBasicResource<T> {
       }
     }
 
+    @Operation(summary = "Met à jour un élément existant.")
     @Override
     @PUT
     @Path("{id}")
     @Transactional
-    public T modifier(@PathParam("id") String id, T t) throws WebApplicationException{
+    public T modifier(@Parameter(description = "uuid de l'élément à modifier", required = true) @PathParam("id") String id, T t) throws WebApplicationException{
         return service.modifer(id,t);
     }
 
@@ -89,11 +104,16 @@ public class BasicResource<T> implements IBasicResource<T> {
      * en 500 plutôt qu'un simple "false", pour que le motif de l'échec remonte jusqu'au
      * frontend au lieu d'un message générique sans cause.
      */
+    @Operation(summary = "Supprime (soft-delete) un élément identifié par son uuid.")
+    @APIResponses({
+        @APIResponse(responseCode = "200", description = "Suppression réussie"),
+        @APIResponse(responseCode = "500", description = "Échec de la suppression : message détaillant la cause")
+    })
     @Override
     @DELETE
     @Path("{id}")
     @Transactional
-    public Response supprimer(@PathParam("id") String id){
+    public Response supprimer(@Parameter(description = "uuid de l'élément à supprimer", required = true) @PathParam("id") String id){
         try {
             if (Boolean.TRUE.equals(service.supprimer(id))) {
                 return Response.ok(true).build();

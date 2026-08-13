@@ -19,6 +19,10 @@ import jakarta.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.jethro.parametrage.api.dao.OperationFeedback;
 import org.jethro.parametrage.api.mapper.BaseMapper;
 import org.jethro.parametrage.api.services.BasicCommonService;
@@ -37,10 +41,12 @@ public class BasicResourceDto<T,S> implements IBasicResourceDto<T,S> {
     @Inject
     OperationFeedback operationFeedback;
 
+    @Operation(summary = "Liste paginée. pageSize=0 renvoie l'intégralité sans pagination.")
     @Override
     @GET
-    public List<S> obtenirListe(@HeaderParam("pageIndex") @DefaultValue("0") int pageIndex
-        , @HeaderParam("pageSize") @DefaultValue("0") int pageSize){
+    public List<S> obtenirListe(
+        @Parameter(description = "index de page, 0-based") @HeaderParam("pageIndex") @DefaultValue("0") int pageIndex
+        , @Parameter(description = "taille de page, 0 = pas de pagination") @HeaderParam("pageSize") @DefaultValue("0") int pageSize){
         try {
             /*return service.obtenirListe(pageIndex,pageSize)
                 .stream()
@@ -54,13 +60,14 @@ public class BasicResourceDto<T,S> implements IBasicResourceDto<T,S> {
     }
 
 
+    @Operation(summary = "Recherche paginée par texte libre (paramètre query). pageSize=0 renvoie l'intégralité des résultats sans pagination.")
     @Override
     @GET
     @Path("search")
     public List<S> rechercher(
-        @QueryParam("query") @DefaultValue("") String searchValue
-        , @HeaderParam("pageIndex") @DefaultValue("0") int pageIndex
-        , @HeaderParam("pageSize") @DefaultValue("0") int pageSize){
+        @Parameter(description = "texte recherché") @QueryParam("query") @DefaultValue("") String searchValue
+        , @Parameter(description = "index de page, 0-based") @HeaderParam("pageIndex") @DefaultValue("0") int pageIndex
+        , @Parameter(description = "taille de page, 0 = pas de pagination") @HeaderParam("pageSize") @DefaultValue("0") int pageSize){
         try {
             return service.rechercher(searchValue,pageIndex,pageSize)
                 .stream()
@@ -72,21 +79,24 @@ public class BasicResourceDto<T,S> implements IBasicResourceDto<T,S> {
         return new ArrayList<>();
     }
 
+    @Operation(summary = "Recherche un élément par son identifiant technique (uuid).")
     @Override
     @GET
     @Path("{id}")
-    public S trouverParId(@PathParam("id") String id){
+    public S trouverParId(@Parameter(description = "uuid de l'élément", required = true) @PathParam("id") String id){
         return mapper.toDto(service.touverParId(id));
         //return this.trouverParId(id);
     }
 
+    @Operation(summary = "Recherche un élément par son code métier unique.")
     @Override
     @GET
     @Path("code/{code}")
-    public S trouverParCode(@PathParam("code") String code){
+    public S trouverParCode(@Parameter(description = "code métier de l'élément", required = true) @PathParam("code") String code){
         return mapper.toDto(service.touverParCode(code));
     }
 
+    @Operation(summary = "Crée un nouvel élément.")
     @Override
     @POST
     @Transactional
@@ -98,11 +108,12 @@ public class BasicResourceDto<T,S> implements IBasicResourceDto<T,S> {
       }
     }
 
+    @Operation(summary = "Met à jour un élément existant.")
     @Override
     @PUT
     @Path("{id}")
     @Transactional
-    public S modifier(@PathParam("id") String id, T t){
+    public S modifier(@Parameter(description = "uuid de l'élément à modifier", required = true) @PathParam("id") String id, T t){
         return mapper.toDto(service.modifer(id,t));
     }
 
@@ -111,11 +122,16 @@ public class BasicResourceDto<T,S> implements IBasicResourceDto<T,S> {
      * en 500 plutôt qu'un simple "false", pour que le motif de l'échec remonte jusqu'au
      * frontend au lieu d'un message générique sans cause.
      */
+    @Operation(summary = "Supprime (soft-delete) un élément identifié par son uuid.")
+    @APIResponses({
+        @APIResponse(responseCode = "200", description = "Suppression réussie"),
+        @APIResponse(responseCode = "500", description = "Échec de la suppression : message détaillant la cause")
+    })
     @Override
     @DELETE
     @Path("{id}")
     @Transactional
-    public Response supprimer(@PathParam("id") String id){
+    public Response supprimer(@Parameter(description = "uuid de l'élément à supprimer", required = true) @PathParam("id") String id){
         try {
             if (Boolean.TRUE.equals(service.supprimer(id))) {
                 return Response.ok(true).build();
