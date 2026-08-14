@@ -17,7 +17,7 @@ public class CommonDao<T extends BaseEntity> extends AbstractDao implements Pana
     public static final Logger LOG = Logger.getLogger("CommonDao");
 
     /**
-     * Ajoute la clause d'institution si le header X-Institution-Id est présent sur la requête
+     * Ajoute la clause d'institution si le header institutionId est présent sur la requête
      * courante. Institution absente = clause inchangée, aucun filtrage : c'est le comportement
      * historique, préservé pour ne pas casser le contrat REST existant.
      */

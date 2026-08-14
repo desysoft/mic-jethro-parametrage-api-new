@@ -50,7 +50,7 @@ public abstract class AbstractDao {
 
 
     /**
-     * Institution courante résolue depuis le header X-Institution-Id (InstitutionRequestFilter),
+     * Institution courante résolue depuis le header institutionId (InstitutionRequestFilter),
      * ou null si absente. Null = aucun filtrage, conforme au comportement historique.
      */
     public String getCurrentInstitutionId() {

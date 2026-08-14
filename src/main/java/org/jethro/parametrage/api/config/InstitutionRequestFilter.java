@@ -9,7 +9,7 @@ import jakarta.ws.rs.ext.Provider;
 import org.jethro.parametrage.api.dao.InstitutionContext;
 
 /**
- * Capture le header X-Institution-Id de la requête courante dans InstitutionContext
+ * Capture le header institutionId de la requête courante dans InstitutionContext
  * (@RequestScoped), lu ensuite par CommonDao pour filtrer les lectures et peupler
  * pkeyInstitutionId à la création. Header absent ou vide = comportement inchangé :
  * InstitutionContext reste à null, aucun filtrage appliqué, conforme au contrat REST
@@ -19,7 +19,7 @@ import org.jethro.parametrage.api.dao.InstitutionContext;
 @Priority(Priorities.HEADER_DECORATOR)
 public class InstitutionRequestFilter implements ContainerRequestFilter {
 
-    public static final String HEADER_NAME = "X-Institution-Id";
+    public static final String HEADER_NAME = "institutionId";
 
     @Inject
     InstitutionContext institutionContext;

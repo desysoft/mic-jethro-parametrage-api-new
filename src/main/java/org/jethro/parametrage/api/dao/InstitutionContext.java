@@ -4,7 +4,7 @@ import jakarta.enterprise.context.RequestScoped;
 
 /**
  * Porte l'institution courante (pkeyInstitutionId) pour la requête HTTP en cours, résolue
- * par InstitutionRequestFilter depuis le header X-Institution-Id. Même raison d'être que
+ * par InstitutionRequestFilter depuis le header institutionId. Même raison d'être que
  * OperationFeedback : les DAO sont @ApplicationScoped (instance unique partagée), donc
  * porter cette valeur directement dessus la ferait fuiter entre requêtes concurrentes.
  * Institution absente (null) = comportement inchangé : aucun filtrage, aucune institution
