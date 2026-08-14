@@ -40,6 +40,9 @@ public abstract class BaseEntity extends PanacheEntityBase {
     @JsonIgnore
     public String status;
 
+    @Column(name = "pkey_institution_id")
+    public String pkeyInstitutionId;
+
     public String generateEntityId(){
         UUID oUuid = UUID.randomUUID();
         return oUuid.toString();

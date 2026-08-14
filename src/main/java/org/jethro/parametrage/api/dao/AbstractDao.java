@@ -17,6 +17,9 @@ public abstract class AbstractDao {
     OperationFeedback operationFeedback;
 
     @Inject
+    InstitutionContext institutionContext;
+
+    @Inject
     EntityManager em;
 
 
@@ -45,6 +48,14 @@ public abstract class AbstractDao {
         this.em = em;
     }
 
+
+    /**
+     * Institution courante résolue depuis le header X-Institution-Id (InstitutionRequestFilter),
+     * ou null si absente. Null = aucun filtrage, conforme au comportement historique.
+     */
+    public String getCurrentInstitutionId() {
+        return institutionContext.getInstitutionId();
+    }
 
     public String checkAndGetForSearchValue(String search_value){
         return (search_value==null || search_value.equals(""))?"%":"%"+search_value+"%";
