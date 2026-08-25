@@ -1,6 +1,5 @@
 package org.jethro.parametrage.api.dto;
 
-import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -14,16 +13,15 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class ProfessionDto extends BaseEntityDTO {
+public class CategorieProfessionDto extends BaseEntityDTO {
 
     private String libelle;
     private String description;
-    private CategorieProfessionDto categorieProfession;
     private Integer nombreFemme;
     private Integer nombreHomme;
     private Integer totalPersons;
 
-    public ProfessionDto(String libelle, String description) {
+    public CategorieProfessionDto(String libelle, String description) {
         this.libelle = libelle;
         this.description = description;
     }

@@ -2,6 +2,7 @@ package org.jethro.parametrage.api.mapper;
 
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
+import org.jethro.parametrage.api.dto.CategorieProfessionDto;
 import org.jethro.parametrage.api.dto.ProfessionCreateDto;
 import org.jethro.parametrage.api.dto.ProfessionDto;
 import org.jethro.parametrage.api.dto.ProfessionUpdateDto;
@@ -57,6 +58,13 @@ public class ProfessionMapper implements BaseMapper<Profession, ProfessionDto>, 
     dto.setNombreHomme(vProfession.nombreHomme);
     dto.setNombreFemme(vProfession.nombreFemme);
     dto.setTotalPersons(vProfession.totalPersons);
+    if (vProfession.idCategorieProfession != null) {
+      CategorieProfessionDto categorieProfessionDto = new CategorieProfessionDto();
+      categorieProfessionDto.setUuid(vProfession.idCategorieProfession);
+      categorieProfessionDto.setCode(vProfession.codeCategorieProfession);
+      categorieProfessionDto.setLibelle(vProfession.libelleCategorieProfession);
+      dto.setCategorieProfession(categorieProfessionDto);
+    }
     return dto;
   }
 
