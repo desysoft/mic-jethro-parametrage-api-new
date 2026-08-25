@@ -1,9 +1,13 @@
 package org.jethro.parametrage.api.dao.impl;
 
+import jakarta.inject.Inject;
 import org.jethro.parametrage.api.dao.CommonDao;
 import org.jethro.parametrage.api.dao.ProfessionDao;
+import org.jethro.parametrage.api.dto.ProfessionCreateDto;
+import org.jethro.parametrage.api.dto.ProfessionUpdateDto;
 import org.jethro.parametrage.api.entities.Profession;
 import org.jethro.parametrage.api.exceptions.CodeExistException;
+import org.jethro.parametrage.api.mapper.ProfessionMapper;
 import org.jethro.parametrage.api.tools.ParametersConfig;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -11,6 +15,25 @@ import org.jethro.parametrage.api.tools.string.ToolString;
 
 @ApplicationScoped
 public class ProfessionDaoImpl extends CommonDao<Profession> implements ProfessionDao {
+
+    @Inject
+    ProfessionMapper professionMapper;
+
+    @Override
+    public Profession saveByProfessionCreateDto(ProfessionCreateDto professionCreateDto) {
+        Profession profession = professionMapper.createDtoToEntity(professionCreateDto);
+        try {
+            return this.save(profession);
+        } catch (CodeExistException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Profession updateByProfessionUpdateDto(ProfessionUpdateDto professionUpdateDto) {
+        Profession profession = professionMapper.updateDtoToEntity(professionUpdateDto);
+        return this.update(professionUpdateDto.getUuid(), profession);
+    }
 
     public Profession save(Profession profession) throws CodeExistException {
         try {
@@ -45,6 +68,7 @@ public class ProfessionDaoImpl extends CommonDao<Profession> implements Professi
             if(professionForUpdate.code!=null) professionFind.code = professionForUpdate.code;
             if(professionForUpdate.libelle!=null) professionFind.libelle = professionForUpdate.libelle;
             if(professionForUpdate.description!=null) professionFind.description = professionForUpdate.description;
+            if(professionForUpdate.categorieProfession!=null) professionFind.categorieProfession = professionForUpdate.categorieProfession;
             this.persist(professionFind);
             return professionFind;
         }catch (Exception e){

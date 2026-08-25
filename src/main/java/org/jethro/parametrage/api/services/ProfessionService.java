@@ -1,6 +1,8 @@
 package org.jethro.parametrage.api.services;
 
 import org.jethro.parametrage.api.dao.ProfessionDao;
+import org.jethro.parametrage.api.dto.ProfessionCreateDto;
+import org.jethro.parametrage.api.dto.ProfessionUpdateDto;
 import org.jethro.parametrage.api.entities.Profession;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -13,6 +15,14 @@ public class ProfessionService implements BasicCommonService<Profession>{
 
      @Inject
      ProfessionDao professionDao;
+
+     public Profession ajouterParProfessionCreateDto(ProfessionCreateDto professionCreateDto) {
+          return professionDao.saveByProfessionCreateDto(professionCreateDto);
+     }
+
+     public Profession modifierParProfessionUpdateDto(ProfessionUpdateDto professionUpdateDto) {
+          return professionDao.updateByProfessionUpdateDto(professionUpdateDto);
+     }
 
      @Override
      public List<Profession> obtenirListe(int pageIndex, int pageSize) {

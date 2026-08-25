@@ -2,14 +2,12 @@ package org.jethro.parametrage.api.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.util.Objects;
 
 @Entity
-@Table(name = "job")
-public class Profession extends BaseEntity{
+@Table(name = "categorie_profession")
+public class CategorieProfession extends BaseEntity{
 
     @Column(name = "str_name")
     public String libelle;
@@ -17,15 +15,11 @@ public class Profession extends BaseEntity{
     @Column(name = "str_description")
     public String description;
 
-    @ManyToOne
-    @JoinColumn(name = "id_categorie_profession", referencedColumnName = "id")
-    public CategorieProfession categorieProfession;
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Profession that = (Profession) o;
+        CategorieProfession that = (CategorieProfession) o;
         return Objects.equals(libelle, that.libelle) && Objects.equals(description, that.description);
     }
 
@@ -36,10 +30,9 @@ public class Profession extends BaseEntity{
 
     @Override
     public String toString() {
-        return "ProfessionDto{" +
+        return "CategorieProfession{" +
                 "uuid='" + uuid + '\'' +
                 ", code='" + code + '\'' +
-                ", status='" + status + '\'' +
                 ", libelle='" + libelle + '\'' +
                 ", description='" + description + '\'' +
                 '}';

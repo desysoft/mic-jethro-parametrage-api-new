@@ -38,6 +38,7 @@ public class ParametersConfig {
     public static String SEXE_CODE_PREFIXE="SX";
     public static String MUNICIPALITY_CODE_PREFIXE="CM";
     public static String DEGREE_CODE_PREFIXE="D";
+    public static String CATEGORIE_PROFESSION_CODE_PREFIXE="CP";
 
     // Message des bean valisation en cas d'érreur.
     public static final String BVM_NOT_BLANK = "Le paramètre requis ne dois pas être vide ou null";
