@@ -73,6 +73,13 @@ public class BasicResource<T> implements IBasicResource<T> {
         return service.touverParCode(code);
     }
 
+    /**
+     * Les DaoImpl.save() rejettent une création invalide (code déjà existant, etc.) en
+     * renvoyant null après avoir positionné operationFeedback — sans lever d'exception.
+     * L'ancien code ignorait ce retour et répondait toujours 201 avec le DTO soumis par le
+     * client, même quand la persistance avait échoué. cf. supprimer() ci-dessous, même
+     * correctif.
+     */
     @Operation(summary = "Crée un nouvel élément.")
     @APIResponses({
         @APIResponse(responseCode = "201", description = "Élément créé"),
@@ -83,20 +90,37 @@ public class BasicResource<T> implements IBasicResource<T> {
     @Transactional
     public Response ajouter(T t) {
       try {
-          service.ajouter(t);
-          return Response.status(Response.Status.CREATED).entity(t).build();
+          T result = service.ajouter(t);
+          if (result == null) {
+              String detail = operationFeedback.getDetailMessage();
+              return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                      .entity(detail != null ? detail : ParametersConfig.FAILED_CREATE)
+                      .build();
+          }
+          return Response.status(Response.Status.CREATED).entity(result).build();
       } catch (Exception e) {
           return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
       }
     }
 
     @Operation(summary = "Met à jour un élément existant.")
+    @APIResponses({
+        @APIResponse(responseCode = "200", description = "Élément modifié"),
+        @APIResponse(responseCode = "500", description = "Échec de la modification, détail du motif dans le corps de la réponse")
+    })
     @Override
     @PUT
     @Path("{id}")
     @Transactional
     public T modifier(@Parameter(description = "uuid de l'élément à modifier", required = true) @PathParam("id") String id, T t) throws WebApplicationException{
-        return service.modifer(id,t);
+        T result = service.modifer(id,t);
+        if (result == null) {
+            String detail = operationFeedback.getDetailMessage();
+            throw new WebApplicationException(Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(detail != null ? detail : ParametersConfig.FAILED_UPDATE)
+                    .build());
+        }
+        return result;
     }
 
     /**
