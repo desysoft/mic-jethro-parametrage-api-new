@@ -55,6 +55,9 @@ spécifications externe.
   clarification plutôt que deviner.
 - Ne pas casser le contrat REST existant : `mic-members-managers-api` est
   un consommateur connu de ce module, sans ticket de migration explicite.
+- Ne jamais mentionner le nom d'un modèle ou d'une entreprise d'IA dans un
+  commit (`claude`, `anthropic`, `code`, `openai`, `gpt`, `copilot`, …) —
+  voir `constitution-git.md`.
 
 ## 5. Commandes utiles
 

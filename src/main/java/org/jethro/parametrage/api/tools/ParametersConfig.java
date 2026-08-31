@@ -39,6 +39,10 @@ public class ParametersConfig {
     public static String MUNICIPALITY_CODE_PREFIXE="CM";
     public static String DEGREE_CODE_PREFIXE="D";
     public static String CATEGORIE_PROFESSION_CODE_PREFIXE="CP";
+    public static String CARDINALITE_CODE_PREFIXE="CA";
+    public static String SENS_CODE_PREFIXE="SE";
+    public static String CONTRAINTE_SEXE_CODE_PREFIXE="CS";
+    public static String TYPE_FILIATION_CODE_PREFIXE="TF";
 
     // Message des bean valisation en cas d'érreur.
     public static final String BVM_NOT_BLANK = "Le paramètre requis ne dois pas être vide ou null";
