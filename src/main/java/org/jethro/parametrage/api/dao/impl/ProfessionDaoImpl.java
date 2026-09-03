@@ -32,7 +32,14 @@ public class ProfessionDaoImpl extends CommonDao<Profession> implements Professi
     @Override
     public Profession updateByProfessionUpdateDto(ProfessionUpdateDto professionUpdateDto) {
         Profession profession = professionMapper.updateDtoToEntity(professionUpdateDto);
-        return this.update(professionUpdateDto.getUuid(), profession);
+        Profession updated = this.update(professionUpdateDto.getUuid(), profession);
+        // update() ignore categorieProfession quand elle est null (mise à jour partielle : null
+        // veut dire "champ non fourni"), donc un détachement explicite doit être traité à part.
+        if (updated != null && professionUpdateDto.isDetacherCategorieProfession()) {
+            updated.categorieProfession = null;
+            this.persist(updated);
+        }
+        return updated;
     }
 
     public Profession save(Profession profession) throws CodeExistException {
